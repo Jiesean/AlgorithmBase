@@ -16,15 +16,19 @@ public class MergeSort  extends Sort {
     @Override
     public void sort(int[] nums) {
         super.sort(nums);
-        mergeSort(nums,0,nums.length-1);
+        mergeSortIteration(nums,0,nums.length-1);
     }
 
+    //递归的方式实现归并排序
     private void mergeSort(int[] nums,int start, int end){
 
-        if(start < end) {
-            int mid = (start + end) / 2;
-            mergeSort(nums, start, mid);
-            mergeSort(nums, mid + 1, end);
+        if(start >= end) {
+            return ;
+        }
+        int mid = (start + end) / 2;
+        mergeSort(nums, start, mid);
+        mergeSort(nums, mid + 1, end);
+        if(nums[mid]>nums[mid+1]){
             merge(nums,start,mid,end);
         }
     }
@@ -54,4 +58,21 @@ public class MergeSort  extends Sort {
             nums[i] = temp[i-start];
         }
     }
+
+    //通过递归的方式实现迭代
+    private void mergeSortIteration(int[] nums,int start, int end){
+        for(int i = 1; i < nums.length;i = i + i){
+
+            for(int j = 0;j < nums.length - i;j=j+i+i){
+                if (j+i+i-1>nums.length) {
+                    merge(nums, j,j+i-1, end);
+                    break;
+                }
+                merge(nums, j,j+i-1, j+i+i-1);
+            }
+        }
+
+
+    }
+
 }
